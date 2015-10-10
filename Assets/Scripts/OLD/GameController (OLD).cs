@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameController : MonoBehaviour 
+public class GameController1 : MonoBehaviour 
 {
-	public static GameController instance;
+	public static GameController1 instance;
 
 	public GameObject TilePrefab;
 

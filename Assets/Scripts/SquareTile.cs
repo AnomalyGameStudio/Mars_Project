@@ -19,7 +19,7 @@ public class SquareTile : MonoBehaviour
 	
 	void OnMouseExit () 
 	{
-		rend.material.color = Color.white;
+		rend.material.color = Color.green;
 	}
 	
 	void OnMouseDown()

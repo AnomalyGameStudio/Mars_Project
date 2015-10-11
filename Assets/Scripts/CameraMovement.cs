@@ -2,85 +2,87 @@
 using System.Collections;
 
 public class CameraMovement : MonoBehaviour 
-{	
-	void Start () 
-	{
-	
-	}
+{
+	public GameObject cameraTarget;
+
+	public float panSpeed;
+	public float zoomSpeed;
+	public float rotateSpeed;
+
+	public float zoomMinLimit;
+	public float zoomMaxLimit;
+
+	private Vector2 panAxis = Vector2.zero;
 
 	void Update () 
 	{
-		//Keyboard scroll
+		panControl();
+		rotateControl();
+		zoomControl();
+	}
 
-		//TODO Movimento muito rapido, camera nao se move verticalmente (Fazer translaçao somente no Y)
+	//TODO Adicionar controle de camera pelo Mouse
+	void panControl()
+	{
+		Vector3 movement = Vector3.zero;
 
-		float translationX = Input.GetAxis("Horizontal");
-		float translationY = Input.GetAxis("Vertical");
-		float fastTranslationX = 2 * translationX;
-		float fastTranslationY = 2 * translationY;
+		movement.x = Input.GetAxis("Horizontal");
+		movement.y = Input.GetAxis("Vertical");
 
-		if (Input.GetKey(KeyCode.LeftShift))
+		transform.Translate(movement * Time.deltaTime * panSpeed, Space.Self);
+	}
+
+	//TODO Alterar os controles para possibilitar customizaçao
+	void rotateControl()
+	{
+		if(Input.GetKey(KeyCode.E))
 		{
-			transform.Translate(fastTranslationX + fastTranslationY, 0, fastTranslationY - fastTranslationX);
+			transform.RotateAround(cameraTarget.transform.position, Vector3.up, - rotateSpeed * Time.deltaTime);
 		}
-		else
+		else if (Input.GetKey(KeyCode.Q))
 		{
-			transform.Translate(translationX + translationY, 0, translationY - translationX);
+			transform.RotateAround(cameraTarget.transform.position, Vector3.up, rotateSpeed * Time.deltaTime);
 		}
+	}
 
-		//Mouse Scroll
+	//TODO Estudar se essa e melhor soluçao
+	void zoomControl()
+	{
+		float axis = GetZoomInputAxis();
 
-		//TODO This doesn't work
+		Camera camera = Camera.main;
+
+		if(camera.orthographicSize > zoomMinLimit && axis < 0 || camera.orthographicSize < zoomMaxLimit && axis > 0)
+		{
+			Debug.Log("Size " + camera.orthographicSize + " axis: " + axis);
+			camera.orthographicSize += axis * Time.deltaTime * zoomSpeed;
+		}
+	}
+
+	//TODO adicionar Zoom atraves do teclado com possibilidade de customizaçao
+	public float GetZoomInputAxis()
+	{
+		float value = 0;
+
 		/*
-		float mousePosX = Input.mousePosition.x;
-		float mousePosY = Input.mousePosition.y;
-		float scrollDistance = 5;
-		float scrollSpeed = 70;
-
-		if (mousePosX < scrollDistance)
+		if (Input.GetKey(zoomOut))
 		{
-			//Horizontal, left
-			transform.Translate(-1, 0, 1);
+			value = -0.3f;
 		}
-
-		if (mousePosX >= Screen.width - scrollDistance)
-			//horizontal, right
+		else if (Input.GetKey(zoomIn))
 		{
-			transform.Translate(1, 0, -1);
-		}
-		
-		//Vertical camera movement
-		if (mousePosY < scrollDistance)
-			//scrolling down
-		{
-			transform.Translate(-1, 0, -1);
-		}
-		if (mousePosY >= Screen.height - scrollDistance)
-			//scrolling up
-		{
-			transform.Translate(1, 0, 1);
+			value = 0.3f;
 		}
 		*/
-
-		//Zoom
-		//TODO It doesn't work also :S
-		/*
-		GameObject cameraTarget = GameObject.Find("Main Camera");
-
-		if(Input.GetAxis("Mouse ScrollWheel") > 0 && cameraTarget.Camera.orthographicSize > 4)
+		if (Input.GetAxis("Mouse ScrollWheel") < 0)
 		{
-			cameraTarget.Camera.orthographicSize = cameraTarget.Camera.orthographicSize - 4;
+			value = -1;
+		}
+		else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+		{
+			value = 1;
 		}
 
-		if(Input.GetAxis("Mouse ScrollWheel") < 0 && cameraTarget.Camera.orthographicSize < 80)
-		{
-			cameraTarget.Camera.orthographicSize = cameraTarget.Camera.orthographicSize + 4;
-		}
-
-		if(Input.GetKeyDown("Mouse2"))
-		{
-			cameraTarget.Camera.orthographicSize = 5;
-		}
-		*/
+		return value;
 	}
 }

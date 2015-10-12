@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3313656}
   - 65: {fileID: 6599736}
   - 23: {fileID: 2363868}
-  - 114: {fileID: 11421846}
+  - 114: {fileID: 11461038}
   m_Layer: 0
   m_Name: GrassTile
   m_TagString: Untagged
@@ -74,7 +74,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11421846
+--- !u!114 &11461038
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -82,9 +82,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 151954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83207224ebff94442bbd7c590c9a1ea4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bb8931ba7fdecb43882c60fd3230c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  streetMaterial: {fileID: 2100000, guid: a3ee07a2bedc5614fb7ed94d45ec4b03, type: 2}
   gridPosition: {x: 0, y: 0}
 --- !u!1001 &100100000
 Prefab:

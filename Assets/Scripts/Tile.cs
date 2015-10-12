@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SquareTile : Tile 
+public class Tile : MonoBehaviour 
 {
 	public Material streetMaterial;
 	public Vector2 gridPosition = Vector2.zero;
-
+	
 	private Renderer rend;
 	
 	void Start() 
@@ -24,7 +24,7 @@ public class SquareTile : Tile
 		rend.material.color = Color.green;
 	}
 	
-	void OnMouseDown()
+	void OnMouseDrag()
 	{
 		rend.material = streetMaterial;
 	}
